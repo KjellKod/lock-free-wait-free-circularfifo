@@ -1,11 +1,23 @@
-/* CircularFifo.h
+/* 
+* Update: 2012-11-26
+* WARNING 
+* the circular fifo used in 'circularfifo_hazard_platform_dependent.hpp'
+* is EXTREMELY platform dependent and should never be used except for testing
+* purposes. For all intents and purposes THIS 'circlarfifo_hazard' should be 
+* considered BROKEN
+*
+*
+*
+*
+* 
 * Not any company's property but Public-Domain
 * Do with source-code as you will. No requirement to keep this
 * header if need to use it/change it/ or do whatever with it
 *
-* Note that there is No guarantee that this code will work
-* and I take no responsibility for this code and any problems you
-* might get if using it. The code is highly platform dependent!
+* Note that there is No guarantee that this code will work. And is actually
+* proven to FAIL in the unit-test. I take no responsibility for this 
+* code and any problems you might get if using it. 
+* The code is HIGHLY PLATFORM DEPENDENT!
 *
 * Code & platform dependent issues with it was originally
 * published at http://www.kjellkod.cc/threadsafecircularqueue
