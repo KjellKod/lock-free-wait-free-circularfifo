@@ -24,10 +24,12 @@ Build instructions
   mkdir build 
   cd build
   cmake -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 11" ..
-  msbuild CIRCULARFIFO.sln p:Configuration=Release
+  msbuild CIRCULARFIFO.sln \p:Configuration=Release
 
 
-This should build three binaries-unit tests that utilizes the lock-free,wait-free CircularFifos (+ the broken one) that are found in src
+This should build three binaries-unit tests that utilizes the 
+lock-free,wait-free CircularFifos (+ the broken one) that are 
+found in src
 
 
 Enjoy
