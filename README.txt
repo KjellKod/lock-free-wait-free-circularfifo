@@ -18,7 +18,8 @@ Build instructions
  
 * On Linux
   mkdir build; cd build
-  cmake ..
+  cmake  cmake -DCMAKE_BUILD_TYPE=Release ..
+  make
 
 * On Windows
   mkdir build 
