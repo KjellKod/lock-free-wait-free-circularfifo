@@ -25,7 +25,9 @@
 #       msbuild CIRCULARFIFO.sln /p:Configuration=Release
 #
 #   On Linux
-#   cd build; cmake ..; make
+#   cd build
+#   cmake -DCMAKE_BUILD_TYPE=Release ..
+#   make
 #
 #   In your (windows) Release or (Linux) build directory you should
 #   now find any of
@@ -122,6 +124,10 @@ TARGET_LINK_LIBRARIES(unit_test_lockfree_aquire_release ${CodeLibraries})
 # unit-test for the could-be-working, i.e. unsafe since it is outside the C++ standard
 #  and relies on hack that are HIGHLY platform dependent. This is old school and should be
 # avoided
+#
+# How to break it: 
+#  At least on Linux, gcc on 'non-release' builds this unsafe type breaks easily 
+#  in the unit test.  
 ADD_EXECUTABLE(unit_test_lockfree_legacy_hazard ${TestSrcFiles})
 SET_TARGET_PROPERTIES(unit_test_lockfree_legacy_hazard PROPERTIES COMPILE_DEFINITIONS "GTEST_USE_OWN_TR1_TUPLE=0")
 SET_TARGET_PROPERTIES(unit_test_lockfree_legacy_hazard PROPERTIES COMPILE_DEFINITIONS "HAZARD=1")
