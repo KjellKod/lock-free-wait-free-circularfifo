@@ -9,18 +9,13 @@ namespace
 
 }
 
-#if defined (MEMORY___SEQUENTIAL_CONSISTENT)
-  #include "circularfifo_memory_sequential_consistent.hpp"
-  using namespace memory_sequential_consistent;
+#if defined (MEMORY___RELAXED_AQUIRE_RELEASE_2)
+  #include "circularfifo_memory_relaxed_aquire_release2.hpp"
+  using namespace memory_relaxed_aquire_release2;
 
 #elif defined (MEMORY___RELAXED_AQUIRE_RELEASE)
   #include "circularfifo_memory_relaxed_aquire_release.hpp"
   using namespace memory_relaxed_aquire_release;
-
-#elif defined (HAZARD)
-  #include "circularfifo_hazard_platform_dependent.hpp"
-  using namespace hazard_by_convention;
-
 #else
   #error SEQUENTIAL or AQUIRE_RELEASE or HAZARD should be defined
 #endif
