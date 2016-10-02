@@ -44,6 +44,10 @@ private:
   std::atomic<size_t>   _head; // head(output) index
 };
 
+
+
+
+
 template<typename Element, size_t Size>
 bool CircularFifo<Element, Size>::push(const Element& item)
 {	
