@@ -45,12 +45,12 @@ namespace memory_relaxed_aquire_release_padded {
 
 
     private:
-      size_t increment(size_t idx) const;
+      size_t increment(size_t idx) const { return (idx + 1) % Capacity; }
 
-      cache_line _pad_tail;
-      /*alignas(64)*/ std::atomic <size_t>  _tail;  
       cache_line _pad_storage;
       /*alignas(64)*/ Element _array[Capacity];
+      cache_line _pad_tail;
+      /*alignas(64)*/ std::atomic <size_t>  _tail;  
       cache_line  _pad_head;
       /*alignas(64)*/ std::atomic<size_t>   _head; // head(output) index
    };
@@ -102,11 +102,6 @@ namespace memory_relaxed_aquire_release_padded {
    template<typename Element, size_t Size>
    bool CircularFifo<Element, Size>::isLockFree() const {
       return (_tail.is_lock_free() && _head.is_lock_free());
-   }
-
-   template<typename Element, size_t Size>
-   size_t CircularFifo<Element, Size>::increment(size_t idx) const {
-      return (idx + 1) % Capacity;
    }
 
 } // memory_relaxed_aquire_release

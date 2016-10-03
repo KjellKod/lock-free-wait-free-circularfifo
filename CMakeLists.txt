@@ -116,7 +116,11 @@ SET_TARGET_PROPERTIES(unit_test_lockfree_aquire_release PROPERTIES COMPILE_DEFIN
 TARGET_LINK_LIBRARIES(unit_test_lockfree_aquire_release ${CodeLibraries})
 
 
-
+# unit-test for the safe, and mutex protected shared_queue
+ADD_EXECUTABLE(unit_test_lock_shared ${TestSrcFiles})
+SET_TARGET_PROPERTIES(unit_test_lock_shared PROPERTIES COMPILE_DEFINITIONS "GTEST_USE_OWN_TR1_TUPLE=0")
+SET_TARGET_PROPERTIES(unit_test_lock_shared PROPERTIES COMPILE_DEFINITIONS "MEMORY___LOCKED=1")
+TARGET_LINK_LIBRARIES(unit_test_lock_shared ${CodeLibraries})
 
 
 

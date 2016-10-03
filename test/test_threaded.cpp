@@ -19,8 +19,10 @@ using namespace memory_relaxed_aquire_release_padded;
 #elif defined (MEMORY___RELAXED_AQUIRE_RELEASE)
 #include "circularfifo_memory_relaxed_aquire_release.hpp"
 using namespace memory_relaxed_aquire_release;
+#elif defined (MEMORY___LOCKED)
+#include "shared_queue.hpp"
 #else
-#error AQUIRE_RELEASE or AQUIRE_RELEASE_PADDED should be defined
+#error AQUIRE_RELEASE or AQUIRE_RELEASE_PADDED or MEMORY___LOCKED should be defined
 #endif
 
 
@@ -49,7 +51,11 @@ namespace {
    const g2::Number k_upper_limit = 1048576;
 
    typedef g2::Number Message;
+#if defined (MEMORY___LOCKED)
+   typedef shared_queue<Message> MessageQueue;
+#else 
    typedef CircularFifo<Message, k_queue_size> MessageQueue;
+#endif 
 
 } // anonymous
 
@@ -147,7 +153,12 @@ std::vector<Message> Consumer(MessageQueue& in_fifo, const size_t enough_process
 
 
 TEST(ThreadedTest, SingleProducerSingleConsumer) {
+#if !defined(MEMORY___LOCKED)
    std::cout << "\nPrepare to wait a bit, pushing " << k_amount_to_process << " through a circular fifo of size: " << MessageQueue::Capacity - 1 << std::endl << std::flush;
+#else
+std::cout << "\nPrepare to wait a bit, pushing " << k_amount_to_process << " through a locked dynamic fifo " << std::endl << std::flush;   
+#endif 
+
    MessageQueue msg_queue;
 
    g2::StopWatch clock;

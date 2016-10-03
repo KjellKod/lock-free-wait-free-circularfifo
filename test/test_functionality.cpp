@@ -3,11 +3,7 @@
 #include <string>
 #include <atomic>
 
-namespace
-{
-  const size_t zero = 0;
 
-}
 
 #if defined (MEMORY___RELAXED_AQUIRE_RELEASE_PADDED)
   #include "circularfifo_memory_relaxed_aquire_release_padded.hpp"
@@ -16,11 +12,22 @@ namespace
 #elif defined (MEMORY___RELAXED_AQUIRE_RELEASE)
   #include "circularfifo_memory_relaxed_aquire_release.hpp"
   using namespace memory_relaxed_aquire_release;
+#elif defined (MEMORY___LOCKED)
+#include "shared_queue.hpp"
 #else
-  #error AQUIRE_RELEASE or AQUIRE_RELEASE_PADDED should be defined
+  #error AQUIRE_RELEASE or AQUIRE_RELEASE_PADDED or MEMORY___LOCKED should be defined
 #endif
 
 
+
+#if !defined(MEMORY___LOCKED)
+
+  
+namespace
+{
+  const size_t zero = 0;
+
+}
 
 namespace test_of_circular_fifo
 {
@@ -35,7 +42,6 @@ namespace test_of_circular_fifo
     increment_index.store(next_index);
   }
 }
-
 
 TEST(CircularFifo, OneItemQueueAddRemoveLimits)
 {
@@ -180,4 +186,5 @@ TEST(CircularFifo, IsLockFree)
   CircularFifo<std::string, 2000> str_fifo;
   ASSERT_TRUE(str_fifo.isLockFree());
 }
+#endif
 #endif
