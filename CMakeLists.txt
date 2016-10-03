@@ -102,10 +102,10 @@ SET (TestSrcFiles
 
 
 # (default) CircularFifo
-ADD_EXECUTABLE(unit_test_lockfree_aquire_release2 ${TestSrcFiles})
-SET_TARGET_PROPERTIES(unit_test_lockfree_aquire_release2 PROPERTIES COMPILE_DEFINITIONS "GTEST_USE_OWN_TR1_TUPLE=0")
-SET_TARGET_PROPERTIES(unit_test_lockfree_aquire_release2 PROPERTIES COMPILE_DEFINITIONS "MEMORY___RELAXED_AQUIRE_RELEASE_2=1")
-TARGET_LINK_LIBRARIES(unit_test_lockfree_aquire_release2 ${CodeLibraries})
+ADD_EXECUTABLE(unit_test_lockfree_aquire_release_padded ${TestSrcFiles})
+SET_TARGET_PROPERTIES(unit_test_lockfree_aquire_release_padded PROPERTIES COMPILE_DEFINITIONS "GTEST_USE_OWN_TR1_TUPLE=0")
+SET_TARGET_PROPERTIES(unit_test_lockfree_aquire_release_padded PROPERTIES COMPILE_DEFINITIONS "MEMORY___RELAXED_AQUIRE_RELEASE_PADDED=1")
+TARGET_LINK_LIBRARIES(unit_test_lockfree_aquire_release_padded ${CodeLibraries})
 
 
 

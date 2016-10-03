@@ -9,15 +9,15 @@ namespace
 
 }
 
-#if defined (MEMORY___RELAXED_AQUIRE_RELEASE_2)
-  #include "circularfifo_memory_relaxed_aquire_release2.hpp"
-  using namespace memory_relaxed_aquire_release2;
+#if defined (MEMORY___RELAXED_AQUIRE_RELEASE_PADDED)
+  #include "circularfifo_memory_relaxed_aquire_release_padded.hpp"
+  using namespace memory_relaxed_aquire_release_padded;
 
 #elif defined (MEMORY___RELAXED_AQUIRE_RELEASE)
   #include "circularfifo_memory_relaxed_aquire_release.hpp"
   using namespace memory_relaxed_aquire_release;
 #else
-  #error SEQUENTIAL or AQUIRE_RELEASE or HAZARD should be defined
+  #error AQUIRE_RELEASE or AQUIRE_RELEASE_PADDED should be defined
 #endif
 
 

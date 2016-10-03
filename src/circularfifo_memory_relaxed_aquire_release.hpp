@@ -15,8 +15,7 @@
 // it is a "controversy" whether what is tail and what is head
 // http://en.wikipedia.org/wiki/FIFO#Head_or_tail_first
 
-#ifndef CIRCULARFIFO_AQUIRE_RELEASE_H_
-#define CIRCULARFIFO_AQUIRE_RELEASE_H_
+#pragma once
 
 #include <atomic>
 #include <cstddef>
@@ -109,4 +108,4 @@ size_t CircularFifo<Element, Size>::increment(size_t idx) const
 }
 
 } // memory_relaxed_aquire_release
-#endif /* CIRCULARFIFO_AQUIRE_RELEASE_H_ */
+

@@ -15,21 +15,21 @@
 // it is a "controversy" whether what is tail and what is head
 // http://en.wikipedia.org/wiki/FIFO#Head_or_tail_first
 
-#ifndef CIRCULARFIFO_AQUIRE_RELEASE2_H_
-#define CIRCULARFIFO_AQUIRE_RELEASE2_H_
+#pragma once
 
 #include <atomic>
 #include <cstddef>
 #include <thread>
 
-namespace memory_relaxed_aquire_release2 {
+namespace memory_relaxed_aquire_release_padded {
 
 
    template<typename Element, size_t Size>
    class CircularFifo {
     public:
       typedef char cache_line[64];
-      enum alignas(64) { Capacity = Size + 1 };
+      enum alignas(64) { Capacity = Size + 1 };       // http://en.cppreference.com/w/cpp/types/aligned_storage
+
 
       CircularFifo() : _tail(0), _head(0) {}
       virtual ~CircularFifo() {}
@@ -48,36 +48,12 @@ namespace memory_relaxed_aquire_release2 {
       size_t increment(size_t idx) const;
 
       cache_line _pad_tail;
-      alignas(64) std::atomic <size_t>  _tail;  // tail(input) index
-      // http://en.cppreference.com/w/cpp/types/aligned_storage
-      //typename std::aligned_storage<sizeof(Element), alignof(Element)>::type data[Capacity];
+      /*alignas(64)*/ std::atomic <size_t>  _tail;  
       cache_line _pad_storage;
-      alignas(64) Element _array[Capacity];
-//      Element    _array[Capacity];
+      /*alignas(64)*/ Element _array[Capacity];
       cache_line  _pad_head;
-      alignas(64) std::atomic<size_t>   _head; // head(output) index
+      /*alignas(64)*/ std::atomic<size_t>   _head; // head(output) index
    };
-
-
-
-
-//       cache_line _pad_tail;
-//       std::atomic <size_t>  _tail;  // tail(input) index
-//       // http://en.cppreference.com/w/cpp/types/aligned_storage
-//       //typename std::aligned_storage<sizeof(Element), alignof(Element)>::type data[Capacity];
-//       cache_line _pad_storage;
-//       Element _array[Capacity];
-// //      Element    _array[Capacity];
-//       cache_line  _pad_head;
-//       std::atomic<size_t>   _head; // head(output) index
-
-
-
-
-
-
-
-
 
 
    template<typename Element, size_t Size>
@@ -134,4 +110,3 @@ namespace memory_relaxed_aquire_release2 {
    }
 
 } // memory_relaxed_aquire_release
-#endif /* CIRCULARFIFO_AQUIRE_RELEASE_H_ */
