@@ -1,15 +1,13 @@
 
 
-3 examples of circular fifo
+3 examples of queues, not only lock-free circular fifo
 ----------------------------
 
-1. std::atomic default (sequential consistent)
+1. std::atomic aquire/release + relaxed memory ordering and cache line padded
 
 2. std::atomic aquire/release + relaxed memory ordering
 
-3. Broken. Old legacy code pre C++11
-that will not work correctly on most platforms
-
+3. mutex protected shared_queue as used in g2log and g3log
 
 Build instructions
 -------------------
