@@ -14,7 +14,6 @@ that will not work correctly on most platforms
 Build instructions
 -------------------
 * Unzip 3rdParty/gtest*.zip to 
-  3rdParty/gtest-1.6.0__stripped
  
 * On Linux
   mkdir build; cd build
@@ -24,7 +23,7 @@ Build instructions
 * On Windows
   mkdir build 
   cd build
-  cmake -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 11" ..
+  cmake -DCMAKE_BUILD_TYPE=Release -G "Visual Studio <put in your version here>" ..
   msbuild CIRCULARFIFO.sln \p:Configuration=Release
 
 
