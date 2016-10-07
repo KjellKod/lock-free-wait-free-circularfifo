@@ -15,7 +15,7 @@ typedef unsigned int  Number;
 // Random numbers are chosen within the range limits of 'low' and 'high'
 // A random number can be retrieved like this:
 // Number random_nbr = RandomNumber(0, 99);
-auto RandomNumber = [&](const Number& low, const Number& high) -> Number {
+auto RandomNumber = [](const Number& low, const Number& high) -> Number {
     std::uniform_int_distribution<int> distribution(low, high);
     std::mt19937 engine((unsigned int)time(0)); // Mersenne twister MT19937
     auto generator = std::bind(distribution, engine); // old-school using bind
@@ -28,7 +28,7 @@ auto RandomNumber = [&](const Number& low, const Number& high) -> Number {
 // does not need to be re-created for each new random number retrieved.
 // auto generator = RandomGenerator(0, 99);
 // Number random_nbr = generator(); // a random number createds
- auto RandomGenerator = [&](const Number& low, const Number& high) -> std::function<Number()> {
+ auto RandomGenerator = [](const Number& low, const Number& high) -> std::function<Number()> {
     std::uniform_int_distribution<int> distribution(low, high);
     std::mt19937 engine((unsigned int)time(0)); // Mersenne twister MT19937
     auto generator = std::bind(distribution, engine);

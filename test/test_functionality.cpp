@@ -3,29 +3,31 @@
 #include <string>
 #include <atomic>
 
+
+
+#if defined (MEMORY___RELAXED_AQUIRE_RELEASE_PADDED)
+  #include "circularfifo_memory_relaxed_aquire_release_padded.hpp"
+  using namespace memory_relaxed_aquire_release_padded;
+
+#elif defined (MEMORY___RELAXED_AQUIRE_RELEASE)
+  #include "circularfifo_memory_relaxed_aquire_release.hpp"
+  using namespace memory_relaxed_aquire_release;
+#elif defined (MEMORY___LOCKED)
+#include "shared_queue.hpp"
+#else
+  #error AQUIRE_RELEASE or AQUIRE_RELEASE_PADDED or MEMORY___LOCKED should be defined
+#endif
+
+
+
+#if !defined(MEMORY___LOCKED)
+
+  
 namespace
 {
   const size_t zero = 0;
 
 }
-
-#if defined (MEMORY___SEQUENTIAL_CONSISTENT)
-  #include "circularfifo_memory_sequential_consistent.hpp"
-  using namespace memory_sequential_consistent;
-
-#elif defined (MEMORY___RELAXED_AQUIRE_RELEASE)
-  #include "circularfifo_memory_relaxed_aquire_release.hpp"
-  using namespace memory_relaxed_aquire_release;
-
-#elif defined (HAZARD)
-  #include "circularfifo_hazard_platform_dependent.hpp"
-  using namespace hazard_by_convention;
-
-#else
-  #error SEQUENTIAL or AQUIRE_RELEASE or HAZARD should be defined
-#endif
-
-
 
 namespace test_of_circular_fifo
 {
@@ -40,7 +42,6 @@ namespace test_of_circular_fifo
     increment_index.store(next_index);
   }
 }
-
 
 TEST(CircularFifo, OneItemQueueAddRemoveLimits)
 {
@@ -185,4 +186,5 @@ TEST(CircularFifo, IsLockFree)
   CircularFifo<std::string, 2000> str_fifo;
   ASSERT_TRUE(str_fifo.isLockFree());
 }
+#endif
 #endif

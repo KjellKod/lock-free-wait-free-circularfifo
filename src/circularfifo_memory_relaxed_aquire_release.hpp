@@ -15,8 +15,7 @@
 // it is a "controversy" whether what is tail and what is head
 // http://en.wikipedia.org/wiki/FIFO#Head_or_tail_first
 
-#ifndef CIRCULARFIFO_AQUIRE_RELEASE_H_
-#define CIRCULARFIFO_AQUIRE_RELEASE_H_
+#pragma once
 
 #include <atomic>
 #include <cstddef>
@@ -43,6 +42,10 @@ private:
   Element    _array[Capacity];
   std::atomic<size_t>   _head; // head(output) index
 };
+
+
+
+
 
 template<typename Element, size_t Size>
 bool CircularFifo<Element, Size>::push(const Element& item)
@@ -105,4 +108,4 @@ size_t CircularFifo<Element, Size>::increment(size_t idx) const
 }
 
 } // memory_relaxed_aquire_release
-#endif /* CIRCULARFIFO_AQUIRE_RELEASE_H_ */
+

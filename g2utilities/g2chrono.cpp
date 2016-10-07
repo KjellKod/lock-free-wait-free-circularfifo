@@ -9,17 +9,17 @@
 
 namespace g2
 {       
-  typedef std::chrono::high_resolution_clock clock;
-  typedef std::chrono::microseconds microseconds;
-  typedef std::chrono::milliseconds milliseconds;
+  using clock = std::chrono::high_resolution_clock;
+  using microseconds = std::chrono::duration<float, std::chrono::microseconds::period>;
+  using milliseconds = std::chrono::duration<float, std::chrono::milliseconds::period>;
 
   clock::time_point now(){return clock::now();}
 
   microseconds intervalUs(const clock::time_point& t1, const clock::time_point& t0)
-  {return std::chrono::duration_cast<microseconds>(t1 - t0);}
+  {return microseconds(t1 - t0);}
 
   milliseconds intervalMs(const clock::time_point& t1,const clock::time_point& t0)
-  {return std::chrono::duration_cast<milliseconds>(t1 - t0);}
+  {return milliseconds(t1 - t0);}
 
 
   template<typename Duration>
