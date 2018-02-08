@@ -87,15 +87,15 @@ namespace memory_relaxed_aquire_release_padded {
    template<typename Element, size_t Size>
    bool CircularFifo<Element, Size>::wasEmpty() const {
       // snapshot with acceptance of that this comparison operation is not atomic
-      return (_head.load() == _tail.load());
+      return (_head.load(std::memory_order_relaxed) == _tail.load(std::memory_order_relaxed));
    }
 
 
 // snapshot with acceptance that this comparison is not atomic
    template<typename Element, size_t Size>
    bool CircularFifo<Element, Size>::wasFull() const {
-      const auto next_tail = increment(_tail.load()); // aquire, we dont know who call
-      return (next_tail == _head.load());
+      const auto next_tail = increment(_tail.load(std::memory_order_relaxed)); // aquire, we dont know who call
+      return (next_tail == _head.load(std::memory_order_relaxed));
    }
 
 
