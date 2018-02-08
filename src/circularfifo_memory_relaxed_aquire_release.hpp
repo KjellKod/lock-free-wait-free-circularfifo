@@ -9,7 +9,7 @@
 *
 * Code & platform dependent issues with it was originally 
 * published at http://www.kjellkod.cc/threadsafecircularqueue
-* 2012-16-19  @author Kjell Hedström, hedstrom@kjellkod.cc */
+* 2012-16-19  @author Kjell HedstrÃ¶m, hedstrom@kjellkod.cc */
 
 // should be mentioned the thinking of what goes where
 // it is a "controversy" whether what is tail and what is head
@@ -82,7 +82,7 @@ template<typename Element, size_t Size>
 bool CircularFifo<Element, Size>::wasEmpty() const
 {
   // snapshot with acceptance of that this comparison operation is not atomic
-  return (_head.load() == _tail.load()); 
+  return (_head.load(std::memory_order_relaxed) == _tail.load(std::memory_order_relaxed)); 
 }
 
 
@@ -90,8 +90,8 @@ bool CircularFifo<Element, Size>::wasEmpty() const
 template<typename Element, size_t Size>
 bool CircularFifo<Element, Size>::wasFull() const
 {
-  const auto next_tail = increment(_tail.load()); // aquire, we dont know who call
-  return (next_tail == _head.load());
+  const auto next_tail = increment(_tail.load(std::memory_order_relaxed)); // aquire, we dont know who call
+  return (next_tail == _head.load(std::memory_order_relaxed));
 }
 
 
