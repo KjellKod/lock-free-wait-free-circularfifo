@@ -36,7 +36,7 @@ public:
   bool wasEmpty() const;
   bool wasFull() const;
   bool isLockFree() const;
-
+  size_t size() const;
 private:
   size_t increment(size_t idx) const; 
 
@@ -79,6 +79,14 @@ bool CircularFifo<Element, Size>::pop(Element& item)
   return true;
 }
 
+size_t size() const { 
+   const int tail = _tail.load();
+   const int head = _head.load();
+   int remaining = (head - tail) + (-((int) (head <= tail)) & Size);
+   return Size - remaining;
+}
+  
+  
 // snapshot with acceptance of that this comparison function is not atomic
 // (*) Used by clients or test, since pop() avoid double load overhead by not
 // using wasEmpty()
