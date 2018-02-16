@@ -9,7 +9,7 @@
 *
 * Code & platform dependent issues with it was originally 
 * published at http://www.kjellkod.cc/threadsafecircularqueue
-* 2012-16-19  @author Kjell Hedstr�m, hedstrom@kjellkod.cc */
+* 2012-16-19  @author Kjell Hedström, hedstrom@kjellkod.cc */
 
 // should be mentioned the thinking of what goes where
 // it is a "controversy" whether what is tail and what is head
