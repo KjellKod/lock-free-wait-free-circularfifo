@@ -13,12 +13,11 @@
 #include "g2chrono.h"
 
 #if defined (MEMORY___RELAXED_AQUIRE_RELEASE_PADDED)
-#include "circularfifo_memory_relaxed_aquire_release_padded.hpp"
-using namespace memory_relaxed_aquire_release_padded;
-
+   #include "circularfifo_memory_relaxed_aquire_release_padded.hpp"
+   using namespace memory_relaxed_aquire_release_padded;
 #elif defined (MEMORY___RELAXED_AQUIRE_RELEASE)
-#include "circularfifo_memory_relaxed_aquire_release.hpp"
-using namespace memory_relaxed_aquire_release;
+   #include "circularfifo_memory_relaxed_aquire_release.hpp"
+   using namespace memory_relaxed_aquire_release;
 #elif defined (MEMORY___LOCKED)
 #include "shared_queue.hpp"
 #else
@@ -33,15 +32,15 @@ namespace {
 
    std::mutex gPrintLock;
    void couts_push(std::string str) {
-    std::lock_guard<std::mutex> guard(gPrintLock);
-    couts.push_back(str);
+      std::lock_guard<std::mutex> guard(gPrintLock);
+      couts.push_back(str);
    }
 
    void couts_flush() {
-    for (const auto& s : couts) {
-      std::cout << s << std::endl;
-    }
-    couts.clear();
+      for (const auto& s : couts) {
+         std::cout << s << std::endl;
+      }
+      couts.clear();
    }
 
 
@@ -53,9 +52,9 @@ namespace {
    typedef g2::Number Message;
 #if defined (MEMORY___LOCKED)
    typedef shared_queue<Message> MessageQueue;
-#else 
+#else
    typedef CircularFifo<Message, k_queue_size> MessageQueue;
-#endif 
+#endif
 
 } // anonymous
 
@@ -114,13 +113,13 @@ std::vector<Message> Producer(MessageQueue& out_fifo, const size_t enough_proces
    for (Message m : all_data) {
       while (false == out_fifo.push(m)) {
          std::this_thread::yield();
-         hit_limit = true; 
+         hit_limit = true;
       }
       pushed_data.push_back(m);
    }
    float elapsed_us = clock.elapsedUs().count();
    std::ostringstream outs;
-   outs << "\nProducer: \t#" << k_amount_to_process << " items took #" << elapsed_us / 1000 << " milliseconds to shuffle, average: " << elapsed_us / k_amount_to_process << ", hit limit?: " << hit_limit << std::endl;
+   outs << "\nProducer: #" << k_amount_to_process << " items took #" << elapsed_us / 1000 << " milliseconds to shuffle, average: " << elapsed_us / k_amount_to_process << " us, hit limit?: " << hit_limit << std::endl;
    couts_push(outs.str());
    return pushed_data;
 }
@@ -131,7 +130,7 @@ std::vector<Message> Consumer(MessageQueue& in_fifo, const size_t enough_process
    std::vector<Message> received_data; // for later verification with produced/sent items
    received_data.reserve(k_queue_size);
    g2::StopWatch clock;
-      bool hit_limit = false;
+   bool hit_limit = false;
    for (size_t count = 0; enough_processed > count; ++count) {
       Message m;
       while (false == in_fifo.pop(m)) {
@@ -142,9 +141,9 @@ std::vector<Message> Consumer(MessageQueue& in_fifo, const size_t enough_process
    }
 
    float elapsed_us = clock.elapsedUs().count();
-      std::ostringstream outs;
+   std::ostringstream outs;
 
-   outs << "\nConsumer: \t#" << k_amount_to_process << " items took #" << elapsed_us / 1000 << " milliseconds to shuffle, average: " << elapsed_us / k_amount_to_process << ", hit limit?: " << hit_limit << std::endl;
+   outs << "\nConsumer: #" << k_amount_to_process << " items took #" << elapsed_us / 1000 << " milliseconds to shuffle, average: " << elapsed_us / k_amount_to_process << ", hit limit?: " << hit_limit << std::endl;
    couts_push(outs.str());
 
    return received_data;
@@ -156,30 +155,22 @@ TEST(ThreadedTest, SingleProducerSingleConsumer) {
 #if !defined(MEMORY___LOCKED)
    std::cout << "\nPrepare to wait a bit, pushing " << k_amount_to_process << " through a circular fifo of size: " << MessageQueue::Capacity - 1 << std::endl << std::flush;
 #else
-std::cout << "\nPrepare to wait a bit, pushing " << k_amount_to_process << " through a locked dynamic fifo " << std::endl << std::flush;   
-#endif 
+   std::cout << "\nPrepare to wait a bit, pushing " << k_amount_to_process << " through a locked dynamic fifo " << std::endl << std::flush;
+#endif
 
    MessageQueue msg_queue;
-
    g2::StopWatch clock;
-   auto future_consumed =
-      std::async(std::launch::async, &Consumer, std::ref(msg_queue), k_amount_to_process); // launch::async force actual thread to run
-
+   auto future_consumed = std::async(std::launch::async, &Consumer, std::ref(msg_queue), k_amount_to_process); 
    auto producer_made = Producer(std::ref(msg_queue), k_amount_to_process); // this thread scope
    auto consumer_received = future_consumed.get(); // wait for consumer to finish
    float elapsed_ms = clock.elapsedMs().count();
-
-
-
    ASSERT_TRUE(consumer_received.size() == producer_made.size());
    ASSERT_TRUE(consumer_received.size() == k_amount_to_process);
-   std::cout << "\n\t#" << k_amount_to_process << " items took #" << elapsed_ms << " milliseconds to shuffle";
-   std::cout << std::endl << std::flush;
+   std::cout << "#" << k_amount_to_process << " items took #" << elapsed_ms << " milliseconds to shuffle";
+   std::cout  << std::flush;
    couts_flush();
 
-
-
-   //ASSERT_TRUE(std::equal(producer_made.begin(), producer_made.end(), consumer_received.begin()));
+   ASSERT_TRUE(std::equal(producer_made.begin(), producer_made.end(), consumer_received.begin()));
    auto getitr = consumer_received.begin();
    auto putitr = producer_made.begin();
    auto idx = 0;

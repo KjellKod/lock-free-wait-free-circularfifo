@@ -123,6 +123,12 @@ SET_TARGET_PROPERTIES(unit_test_lock_shared PROPERTIES COMPILE_DEFINITIONS "MEMO
 TARGET_LINK_LIBRARIES(unit_test_lock_shared ${CodeLibraries})
 
 
+# unit-test for the lock free sequential consistent shared queue
+ADD_EXECUTABLE(unit_test_lockfree_sequential ${TestSrcFiles})
+SET_TARGET_PROPERTIES(unit_test_lockfree_sequential PROPERTIES COMPILE_DEFINITIONS "GTEST_USE_OWN_TR1_TUPLE=0")
+SET_TARGET_PROPERTIES(unit_test_lockfree_sequential PROPERTIES COMPILE_DEFINITIONS "MEMORY___RELAXED_SEQUENTIAL_RELEASE=1")
+TARGET_LINK_LIBRARIES(unit_test_lockfree_sequential ${CodeLibraries})
+
 
 
 
