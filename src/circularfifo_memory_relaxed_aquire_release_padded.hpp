@@ -13,7 +13,7 @@
 
 // should be mentioned the thinking of what goes where
 // it is a "controversy" whether what is tail and what is head
-// http://en.wikipedia.org/wiki/FIFO#Head_or_tail_first
+// https://en.wikipedia.org/wiki/FIFO_(computing_and_electronics)#Head_or_tail_first
 
 #pragma once
 
