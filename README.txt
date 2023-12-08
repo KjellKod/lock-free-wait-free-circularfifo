@@ -1,3 +1,5 @@
+# UPDATE, please see Q repo for MPSC, SPSC etc queues. 
+
 
 
 3 examples of queues, not only lock-free circular fifo
