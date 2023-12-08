@@ -1,4 +1,4 @@
-# UPDATE, please see Q repo for MPSC, SPSC etc queues. 
+# UPDATE, please see [Q](https://github.com/KjellKod/Q) repo for MPSC, SPSC etc queues. 
 
 
 
